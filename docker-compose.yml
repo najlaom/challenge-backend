@@ -1,0 +1,35 @@
+version: '3'
+services:
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    image: dev
+    env_file: .env
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - app-network
+    ports:
+      - 3004:3004
+    volumes:
+      - .:/app
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:

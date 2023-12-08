@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+    binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      =  "postgresql://listdapp:supersecret@database:5432/sensor_data"
+}
+
+model Sensor {
+  id          Int      @id @default(autoincrement())
+  serial      String
+  swVersion   String
+  temperature String
+  date        DateTime
+  gps         String
+
+  @@map("sensors")
+}
